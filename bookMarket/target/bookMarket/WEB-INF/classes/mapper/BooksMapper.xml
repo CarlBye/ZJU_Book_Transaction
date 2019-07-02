@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carl.dao.BooksMapper">
+  <resultMap id="BaseResultMap" type="com.carl.pojo.Books">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="original_price" jdbcType="REAL" property="originalPrice" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="isbn" jdbcType="VARCHAR" property="isbn" />
+    <result column="jd_url" jdbcType="VARCHAR" property="jdUrl" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.carl.pojo.Books">
+    <result column="describe" jdbcType="LONGVARCHAR" property="describe" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, type_id, user_id, original_price, price, start_time, end_time, update_time, 
+    status, isbn
+  </sql>
+  <sql id="Blob_Column_List">
+    describe
+  </sql>
+  <sql id="Factor">
+    --     and end_time >= now() order by update_time DESC
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    *
+    from books
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from books
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carl.pojo.Books">
+    insert into books (id, name, type_id, 
+      user_id, original_price, price, 
+      start_time, end_time, update_time, 
+      status, img_url, isbn, jd_url, `describe`
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{originalPrice,jdbcType=REAL}, #{price,jdbcType=REAL}, 
+      #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER}, #{imgUrl,jdbcType=VARCHAR},
+      #{isbn,jdbcType=VARCHAR}, #{jdUrl,jdbcType=VARCHAR}, #{describe,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.carl.pojo.Books">
+    insert into books
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="originalPrice != null">
+        original_price,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="imgUrl != null">
+        img_url,
+      </if>
+      <if test="isbn != null">
+        isbn,
+      </if>
+      <if test="jdUrl != null">
+        jd_url,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="originalPrice != null">
+        #{originalPrice,jdbcType=REAL},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="isbn != null">
+        #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="jdUrl != null">
+        #{jdUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carl.pojo.Books">
+    update books
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="originalPrice != null">
+        original_price = #{originalPrice,jdbcType=REAL},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="imgUrl != null">
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isbn != null">
+        isbn = #{isbn,jdbcType=VARCHAR},
+      </if>
+      <if test="jdUrl != null">
+        jd_url = #{jdUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe = #{describe,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.carl.pojo.Books">
+    update books
+    set name = #{name,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      original_price = #{originalPrice,jdbcType=REAL},
+      price = #{price,jdbcType=REAL},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      jd_url = #{jdUrl,jdbcType=VARCHAR},
+      `describe` = #{describe,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carl.pojo.Books">
+    update books
+    set name = #{name,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      original_price = #{originalPrice,jdbcType=REAL},
+      price = #{price,jdbcType=REAL},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      isbn = #{isbn,jdbcType=VARCHAR},
+      jd_url = #{jdUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    *
+    from books
+    where id = #{id,jdbcType=INTEGER};
+    <include refid="Factor"> </include>
+  </select>
+  <select id="searchBooksByStatus" resultMap="ResultMapWithBLOBs">
+    select * from books
+    where status=#{status} and  name like concat('%',#{name},'%')
+    order by update_time desc
+  </select>
+  <select id="selectByStr" resultMap="ResultMapWithBLOBs">
+    select * from books where  status=1
+    <if test="name != null" >
+      AND ( name like concat('%',#{name},'%')
+    </if>
+    <if test="describe != null" >
+      OR describe like concat('%',#{describe},'%'))
+    </if>
+    order by update_time DESC limit #{limit,jdbcType=INTEGER}
+    <include refid="Factor"> </include>
+  </select>
+  <select id="selectByTypeAndStatus" resultMap="ResultMapWithBLOBs">
+    select * from books
+    where type_id = #{type_id} AND  name like concat('%',#{name},'%')
+    AND status = #{status} order by update_time desc
+  </select>
+  <select id="selectAllBooks" resultMap="ResultMapWithBLOBs">
+    select * from books where status=1 order by start_time desc
+  </select>
+  <select id="getBooksByUserIdAndStatus" resultMap="ResultMapWithBLOBs">
+    select * from books where user_id = #{userId,jdbcType=INTEGER} and status=#{status,jdbcType=INTEGER} order by update_time desc
+  </select>
+
+  <select id="selectByTypeOrderByDate" resultMap="ResultMapWithBLOBs">
+    select * from books
+    where type_id = #{typeId,jdbcType=INTEGER} and status=1
+    order by update_time DESC
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectOrderByDate" resultMap="ResultMapWithBLOBs">
+    select * from books where status=1
+    order by update_time DESC
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  <!-- 后台查询 -->
+  <select id="getBooksList" resultMap="ResultMapWithBLOBs" parameterType="String">
+    select * from books
+  </select>
+
+  <select id="getPagebooksBybooks" resultMap="ResultMapWithBLOBs">
+    select * from books where  1=1
+    <if test="id != '' and id != null" >
+      AND id like concat('%',#{id},'%')
+    </if>
+    <if test="name != '' and name != null" >
+      AND name like concat('%',#{name},'%')
+    </if>
+    <if test="status != null">
+      AND status like concat('%',#{status},'%')
+    </if>
+  </select>
+  <update id="downBookById" parameterType="java.lang.Integer" >
+    update books
+    <set>status=0</set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>
